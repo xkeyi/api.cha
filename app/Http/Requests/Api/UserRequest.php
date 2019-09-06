@@ -10,8 +10,8 @@ class UserRequest extends FormRequest
         switch ($this->method()) {
             case 'POST':
                 return [
-                    'username' => 'required|between:3,25|regex:/^[A-Za-z0-9\-\_]+$/|unique:users,username',
-                    'password' => 'required|string|min:6',
+                    'username' => 'required|between:5,20|regex:/^[A-Za-z0-9\-\_]+$/|unique:users,username',
+                    'password' => 'required|string|between:6,32',
                     'verification_key' => 'required|string',
                     'verification_code' => 'required|string',
                 ];
@@ -37,7 +37,7 @@ class UserRequest extends FormRequest
         return [
             'username.unique' => '用户名已被占用，请重新填写',
             'username.regex' => '用户名只支持英文、数字、横杆和下划线。',
-            'username.between' => '用户名必须介于 3 - 25 个字符之间。',
+            'username.between' => '用户名必须介于 5 - 20 个字符之间。',
             'username.required' => '用户名不能为空。',
         ];
     }

@@ -19,8 +19,8 @@ class VerificationCodesController extends Controller
         }
 
         if (!hash_equals($captchaData['code'], $request->captcha_code)) {
-            // 返回 401
-            return $this->response->errorUnauthorized('验证码错误');
+            // 返回 403
+            return $this->response->errorForbidden('验证码错误');
         }
 
         $phone = $captchaData['phone'];
@@ -45,7 +45,7 @@ class VerificationCodesController extends Controller
         }
 
         $key = 'verificationCode_'.Str::random(15);
-        $expiredAt = now()->addMinutes(10);
+        $expiredAt = now()->addMinutes(20);
 
         Cache::forget($request->captcha_key);
 

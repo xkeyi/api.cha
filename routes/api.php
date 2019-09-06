@@ -16,7 +16,7 @@ $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', [
     'namespace' => 'App\Http\Controllers\Api',
-    'middleware' => [],
+    'middleware' => ['serializer:array', 'bindings', 'cors'],
 ], function ($api) {
     /** 登录相关 */
     $api->group([
@@ -32,6 +32,23 @@ $api->version('v1', [
         $api->post('users', 'UsersController@store')->name('api.users.store');
     });
 
+
+    /** 其他 */
+    $api->group([
+        'middleware' => 'api.throttle',
+        'limit' => config('api.rate_limits.access.limit'),
+        'expires' => config('api.rate_limits.access.expires'),
+    ], function ($api) {
+        /** 游客可以访问的接口 */
+        // 用户是否存在
+        $api->post('user/exists', 'UsersController@exists')->name('api.user.exists');
+
+        /** 需要用户登录才能访问的接口 */
+        $api->group(['middleware' => 'api.auth'], function ($api) {
+            // 当前登录用户信息
+            $api->get('user', 'UsersController@me')->name('api.user.show');
+        });
+    });
 
     $api->get('version', function () {
         return response('this is version v1');
