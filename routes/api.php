@@ -44,11 +44,16 @@ $api->version('v1', [
         /** 游客可以访问的接口 */
         // 用户是否存在
         $api->post('user/exists', 'UsersController@exists')->name('api.user.exists');
+        // 文章详情
+        $api->get('articles/{article}', 'ArticlesController@show')->name('api.articles.show');
 
         /** 需要用户登录才能访问的接口 */
         $api->group(['middleware' => 'api.auth'], function ($api) {
             // 当前登录用户信息
             $api->get('user', 'UsersController@me')->name('api.user.show');
+
+            // 发布文章
+            $api->post('articles', 'ArticlesController@store')->name('api.articles.store');
         });
     });
 
