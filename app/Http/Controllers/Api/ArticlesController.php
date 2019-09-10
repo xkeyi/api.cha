@@ -43,4 +43,16 @@ class ArticlesController extends Controller
 
         return $this->response->item($article, new ArticleTransformer());
     }
+
+    public function index(Request $request)
+    {
+        $builder = Article::published();
+        if ($category_id = $request->category_id) {
+            $builder->where('category_id', $category_id);
+        }
+
+        $articles = $builder->paginate();
+
+        return $this->response->paginator($articles, new ArticleTransformer());
+    }
 }

@@ -36,4 +36,10 @@ class Article extends Model
     {
         return $this->morphOne(Content::class, 'contentable');
     }
+
+    public function scopePublished($query)
+    {
+        $query->where('published_at', '<=', now())
+            ->whereNull('deleted_at');
+    }
 }
