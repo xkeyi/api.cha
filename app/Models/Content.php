@@ -39,4 +39,9 @@ class Content extends Model
     {
         return $this->morphTo();
     }
+
+    public function getActivityLogContentAttribute()
+    {
+        return \str_limit(\strip_tags($this->body), 100);
+    }
 }

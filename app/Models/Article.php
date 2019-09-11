@@ -9,7 +9,7 @@ class Article extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['title', 'category_id', 'published_at'];
+    protected $fillable = ['title', 'cover_image', 'category_id', 'published_at'];
 
     protected $casts = [
         'cache' => 'array',

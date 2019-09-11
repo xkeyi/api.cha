@@ -10,6 +10,7 @@ class ArticleRequest extends FormRequest
             case 'POST':
                 return [
                     'title' => 'required|string|min:6',
+                    'cover_image' => 'required|string',
                     'category_id' => 'required|exists:categories,id',
                     'type' => 'required|in:markdown,html',
                     'content.body' => 'required_if:type,html',
