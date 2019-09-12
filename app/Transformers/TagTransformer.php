@@ -13,6 +13,7 @@ class TagTransformer extends TransformerAbstract
             'id' => $tag->id,
             'name' => $tag->name,
             'description' => $tag->description,
+            'badge' => $tag->badge,
         ];
     }
 }

@@ -17,6 +17,7 @@ class CreateTagsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name')->index()->comment('名称');
             $table->string('description')->nullable()->comment('描述');
+            $table->string('badge')->nullable()->comment('badge 样式');
             $table->unsignedInteger('post')->default(0)->comment('帖子数');
             $table->timestamps();
         });

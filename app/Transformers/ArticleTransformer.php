@@ -17,7 +17,7 @@ class ArticleTransformer extends TransformerAbstract
             'cover_image' => $article->cover_image,
             'category_id' => $article->category_id,
             'user_id' => $article->user_id,
-            'published_at' => (string) $article->published_at,
+            'published_at_ago' => (string) $article->published_at->diffForHumans(),
         ];
     }
 
