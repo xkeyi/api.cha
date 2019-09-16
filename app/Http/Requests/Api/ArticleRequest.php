@@ -19,6 +19,18 @@ class ArticleRequest extends FormRequest
                 ];
                 break;
 
+            case 'PATCH':
+                return [
+                    'title' => 'required|string|min:6',
+                    'cover_image' => 'required|string',
+                    'category_id' => 'required|exists:categories,id',
+                    'type' => 'required|in:markdown,html',
+                    'content.body' => 'required_if:type,html',
+                    'content.markdown' => 'required_if:type,markdown',
+                    'is_draft' => 'boolean',
+                ];
+                break;
+
             default:
                 // code...
                 break;
