@@ -15,6 +15,7 @@ class CreateTagsTable extends Migration
     {
         Schema::create('tags', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('category_id')->index();
             $table->string('name')->index()->comment('名称');
             $table->string('description')->nullable()->comment('描述');
             $table->string('badge')->nullable()->comment('badge 样式');

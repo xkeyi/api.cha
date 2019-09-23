@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\Api\VerificationCodeRequest;
+use App\Http\Requests\VerificationCodeRequest;
 use Cache;
 use Str;
 use Overtrue\EasySms\EasySms;

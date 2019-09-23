@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', [
-    'namespace' => 'App\Http\Controllers\Api',
+    'namespace' => 'App\Http\Controllers',
     'middleware' => ['serializer:array', 'bindings', 'cors'],
 ], function ($api) {
     /** 登录相关 */

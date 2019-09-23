@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\Api\AuthorizationRequest;
+use App\Http\Requests\AuthorizationRequest;
 use Auth;
 
 class AuthorizationsController extends Controller
@@ -22,6 +22,4 @@ class AuthorizationsController extends Controller
             return $this->response->errorUnauthorized(trans('auth.failed'));
         }
     }
-
-
 }

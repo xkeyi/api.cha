@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Gregwar\Captcha\CaptchaBuilder;
-use App\Http\Requests\Api\CaptchaRequest;
+use App\Http\Requests\CaptchaRequest;
 use Str;
 use Cache;
 

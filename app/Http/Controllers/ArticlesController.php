@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\Api\ArticleRequest;
+use App\Http\Requests\ArticleRequest;
 use App\Models\Article;
 use App\Models\Tag;
 use App\Transformers\ArticleTransformer;
@@ -57,7 +57,7 @@ class ArticlesController extends Controller
             $builder->where('category_id', $category_id);
         }
 
-        $articles = $builder->paginate();
+        $articles = $builder->orderBy('published_at', 'desc')->paginate();
 
         return $this->response->paginator($articles, new ArticleTransformer());
     }

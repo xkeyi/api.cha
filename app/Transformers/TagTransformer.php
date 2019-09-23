@@ -11,6 +11,7 @@ class TagTransformer extends TransformerAbstract
     {
         return [
             'id' => $tag->id,
+            'category_id' => $tag->category_id,
             'name' => $tag->name,
             'description' => $tag->description,
             'badge' => $tag->badge,

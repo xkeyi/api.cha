@@ -22,7 +22,7 @@ class User extends Authenticatable implements JWTSubject
     }
 
     protected $fillable = [
-        'username', 'email', 'password', 'phone', 'avatar', 'introduction',
+        'name', 'username', 'email', 'password', 'phone', 'avatar', 'introduction',
     ];
 
     /**
@@ -31,7 +31,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'phone', 'remember_token',
     ];
 
     /**
@@ -41,6 +41,7 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'is_admin' => 'boolean',
     ];
 
     public function articles()

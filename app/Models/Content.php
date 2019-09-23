@@ -10,7 +10,7 @@ class Content extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['contentable_id', 'contentable_type', 'body', 'markdown'];
+    protected $fillable = ['contentable_id', 'contentable_type', 'body'];
 
     protected $casts = [
         'contentable_id' => 'int',
@@ -21,11 +21,6 @@ class Content extends Model
         parent::boot();
 
         static::saving(function ($content) {
-            // isDirty () 去判断一个模型或者给定的属性是否被更改了
-            if ($content->isDirty('markdown') && !empty($content->markdown)) {
-                $content->body = self::toHTML($content->markdown);
-            }
-
             $content->body = Purifier::clean($content->body);
         });
     }
