@@ -7,6 +7,8 @@ use League\Fractal\TransformerAbstract;
 
 class TagTransformer extends TransformerAbstract
 {
+    protected $availableIncludes = ['category'];
+
     public function transform(Tag $tag)
     {
         return [
@@ -16,5 +18,10 @@ class TagTransformer extends TransformerAbstract
             'description' => $tag->description,
             'badge' => $tag->badge,
         ];
+    }
+
+    public function includeCategory(Tag $tag)
+    {
+        return $this->item($tag->category, new CategoryTransformer());
     }
 }

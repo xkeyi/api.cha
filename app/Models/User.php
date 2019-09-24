@@ -44,6 +44,15 @@ class User extends Authenticatable implements JWTSubject
         'is_admin' => 'boolean',
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            $user->name = $user->name ?? $user->username;
+        });
+    }
+
     public function articles()
     {
         return $this->hasMany(Article::class);

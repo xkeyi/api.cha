@@ -59,7 +59,8 @@ class UsersController extends Controller
             return $this->response->array(['success' => !$exists]);
         }
 
-        \abort(400);
+        // 返回 400
+        return $this->response->errorBadRequest('错误的请求');
     }
 
     public function me()
