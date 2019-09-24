@@ -48,6 +48,8 @@ $api->version('v1', [
         $api->get('articles/{article}', 'ArticlesController@show')->name('api.articles.show');
         // 文章列表
         $api->get('articles', 'ArticlesController@index')->name('api.articles.index');
+        // 节点列表
+        $api->get('tags', 'TagsController@index')->name('api.tags.index');
 
         /** 需要用户登录才能访问的接口 */
         $api->group(['middleware' => 'api.auth'], function ($api) {
