@@ -13,25 +13,30 @@ class ArticlesController extends Controller
     public function store(ArticleRequest $request, Article $article)
     {
         // 权限验证
-        $this->authorize('admin', $article);
+        $this->authorize('create', $article);
 
-        $article->fill($request->all());
+        // 添加文章数据
+        $article->fill([
+            'title' => $request->input('title'),
+            'cover_image' => $request->input('cover_image'),
+            'category_id' => $request->input('category_id'),
+            'title' => $request->input('title'),
+        ]);
+        // 文章作者
         $article->user_id = $this->user()->id;
+        // 不是草稿
         if (!$request->is_draft) {
             $article->published_at = now();
         }
+        // 保存文章
         $article->save();
 
         // 添加文章内容
-        $content = $request->content;
-        $article->content()->create($content);
+        $article->content()->create($request->content);
 
         // 添加标签
         if ($tags = $request->tags) {
-            $tags = Tag::whereIn('id', $tags)->pluck('id');
-            if ($tags) {
-                $article->tags()->sync($tags);
-            }
+            $article->tags()->sync($tags);
         }
 
         return $this->response->item($article, new ArticleTransformer());
@@ -65,7 +70,7 @@ class ArticlesController extends Controller
     public function destroy(Article $article)
     {
         // 权限验证
-        $this->authorize('admin', $article);
+        $this->authorize('delete', $article);
 
         $article->delete();
 
@@ -75,7 +80,7 @@ class ArticlesController extends Controller
     public function update(ArticleRequest $request, Article $article)
     {
         // 权限验证
-        $this->authorize('admin', $article);
+        $this->authorize('update', $article);
 
         $article->update($request->all());
 

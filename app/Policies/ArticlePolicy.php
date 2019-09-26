@@ -10,8 +10,18 @@ class ArticlePolicy
 {
     use HandlesAuthorization;
 
-    public function admin(User $user, Article $Article)
+    public function create(User $user, Article $article)
     {
-        return $user->id === 1;
+        return $user->is_admin;
+    }
+
+    public function update(User $user, Article $article)
+    {
+        return $user->is_admin || $user->id === $article->user_id;
+    }
+
+    public function delete(User $user, Article $article)
+    {
+        return $user->is_admin || $user->id === $article->user_id;
     }
 }
