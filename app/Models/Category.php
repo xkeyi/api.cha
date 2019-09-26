@@ -12,4 +12,9 @@ class Category extends Model
     {
         return $this->hasMany(Article::class);
     }
+
+    public function tags()
+    {
+        return $this->hasMany(Tag::class);
+    }
 }
