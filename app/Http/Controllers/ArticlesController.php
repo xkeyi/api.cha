@@ -20,7 +20,6 @@ class ArticlesController extends Controller
             'title' => $request->input('title'),
             'cover_image' => $request->input('cover_image'),
             'category_id' => $request->input('category_id'),
-            'title' => $request->input('title'),
         ]);
         // 文章作者
         $article->user_id = $this->user()->id;
@@ -44,9 +43,14 @@ class ArticlesController extends Controller
 
     public function show(Article $article)
     {
-        // 判断文章是否删除或者禁用或者未发布
+        // 文章被禁用，不允许查看
+        if ($article->banned_at) {
+            return $this->response->errorNotFound();
+        }
+
+        // 文章未发布，只允许作者自己查看
         if (!$article->published_at) {
-            if (!$this->user() || $this->user()->id !== 1) {
+            if (!$this->user() || ($this->user()->id !== $article->user_id && !$this->user()->is_admin)) {
                 return $this->response->errorNotFound();
             }
         }
@@ -82,11 +86,26 @@ class ArticlesController extends Controller
         // 权限验证
         $this->authorize('update', $article);
 
-        $article->update($request->all());
+        $data = [
+            'title' => $request->input('title'),
+            'cover_image' => $request->input('cover_image'),
+            'category_id' => $request->input('category_id'),
+        ];
+
+        if (!$article->published_at && !$request->is_draft) {
+            $data['published_at'] = now();
+        }
+
+        $article->update($data);
 
         // 更新文章内容
-        $content = $request->content;
-        $article->content()->update($content);
+        $content = $article->content;
+        $content['body'] = $request->content['body'] ?: $content->body;
+        $content['markdown'] = $request->content['markdown'];
+        $content->save();
+
+        // 直接使用 update（此处相当于批量更新）不会出发 content 的 saving 事件
+        // $article->content()->update($request->content);
 
         // 更新标签
         $tags = $request->tags ?: [];

@@ -33,13 +33,23 @@ class ArticleRequest extends FormRequest
 
             case 'PATCH':
                 return [
-                    'title' => 'required|string|min:6',
+                    'title' => 'required|string|min:5',
                     'cover_image' => 'required|string',
                     'category_id' => 'required|exists:categories,id',
                     'type' => 'required|in:markdown,html',
                     'content.body' => 'required_if:type,html',
                     'content.markdown' => 'required_if:type,markdown',
                     'is_draft' => 'boolean',
+                    'tags' => [
+                        'array',
+                        function ($attribute, $tags, $fail) {
+                            foreach ($tags as $tag) {
+                                if (!Tag::find($tag)) {
+                                    return $fail('该标签不存在');
+                                }
+                            }
+                        },
+                    ]
                 ];
                 break;
 

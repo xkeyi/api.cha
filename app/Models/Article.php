@@ -15,7 +15,6 @@ class Article extends Model
     protected $casts = [
         'cache' => 'array',
         'published_at' => 'datetime',
-        'banned_at' => 'datetime',
     ];
 
     public function user()
